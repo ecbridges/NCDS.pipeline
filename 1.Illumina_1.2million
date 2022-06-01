@@ -2,11 +2,17 @@
 ##NCDS to the Michigan Imputation Server.
 
 ##Requirements:
-	Illumina 1.2 million array .ped file (name illumina.12m.ped)
-	Illumina 1.2 million array exclusions file (name illumina.12m.exclusions.txt)
+	Illumina 1.2 million array binary files, with exclusions and duplicates removed 
+		(name illumina.1.2)
 	Plink 1.90b4
 	This script should be run in a unix environment
-	
 
-##Remove exclusions as provided by NCDS.
-plink --file illumina.12m --exclude 	
+
+##Identify SNPs with high proportion of missing data. This document can be inspected if required.
+plink --bfile illumina.1.2 --missing --out illumina.1.2.calls
+
+##Remove SNPs with call rate < 0.97
+plink --bfile illumina.1.2 --geno 0.03 --make-bed --out illumina.1.2.QC1
+
+##Identify variants not in HWE.
+plink --bfile illumina.1.2.QC1 --hardy --out
