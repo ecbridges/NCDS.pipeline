@@ -1,0 +1,12 @@
+##This file includes the first steps for conducting the quality control pipeline to upload the Illumina 1.2 million array from the
+##NCDS to the Michigan Imputation Server.
+
+##Requirements:
+	Illumina 1.2 million array .ped file (name illumina.12m.ped)
+	Illumina 1.2 million array exclusions file (name illumina.12m.exclusions.txt)
+	Plink 1.90b4
+	This script should be run in a unix environment
+	
+
+##Remove exclusions as provided by NCDS.
+plink --file illumina.12m --exclude 	
