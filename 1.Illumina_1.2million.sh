@@ -15,11 +15,6 @@ plink --bfile illumina.1.2 --missing --out illumina.1.2.calls
 ##Remove SNPs with call rate < 0.97
 plink --bfile illumina.1.2 --geno 0.03 --make-bed --out illumina.1.2.QC1
 
-##Identify variants not in HWE.
-plink --bfile illumina.1.2.QC1 --hardy --out illumina.1.2
-awk '$3 == "UNAFF" && $9 < 0.000001' illumina.1.2.hwe | wc -l 
-#No variants fail HWE in this dataset.
-
 ##Identify individuals with high proportion of missing data.
 plink --bfile illumia.1.2.QC1 --missing --out illumina.1.2.calls.2
 awk '$6 >= 0.02 {print}' illumina.1.2.calls.2.imiss >> illumina.1.2.drop.txt
