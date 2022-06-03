@@ -20,14 +20,9 @@ plink --bfile affy.500.QC1 --hardy --out affy.500
 awk '$3 == "UNAFF" && $9 < 0.000001' affy.500.hwe | wc -l
 plink --bfile affy.500.QC1 --hwe 0.000001 --make-bed --out affy.500.QC2
 
-##Identify individuals with high proportion of missing data.
-plink --bfile affy.500.QC2 --missing --out affy.500.calls.2
-awk '$6 >= 0.02 {print}' affy.500.calls.2.imiss >> affy.500.drop.txt
-plink --bfile affy.500.QC2 --remove affy.500.drop.txt --make-bed --out affy.500.QC3
-
 ##Check for unexpected levels of heterozygostiy - calculate heterozygostiy proportions.
-plink --bfile affy.500.QC3 --het --out affy.500.QC3
-plink --bfile affy.500.QC3 --missing --out affy.500.calls.3
+plink --bfile affy.500.QC2 --het --out affy.500.QC2
+plink --bfile affy.500.QC2 --missing --out affy.500.calls.3
 echo "FID IID obs_HOM N_SNPs prop_HET" > affy.500.prop.het.txt
 awk 'NR>1{print $1,$2,$3,$5,($5-$3)/$5}' affy.500.het >> affy.500.prop.het.txt
 
@@ -46,4 +41,4 @@ q()
 
 ##Note upper and lower bound, named x and y respectively here. Remove heterozygosity outliers.
 'awk $5 <= y || $5 >= x' affy.500.prop.het.txt >> affy.500.het.drop.txt
-plink --bfile affy.500.QC3 --remove affy.500.het.drop.txt --make-bed --out affy.500.QC4
+plink --bfile affy.500.QC2 --remove affy.500.het.drop.txt --make-bed --out affy.500.QC3
