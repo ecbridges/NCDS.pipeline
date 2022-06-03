@@ -17,7 +17,7 @@ plink --bfile illumina.15.QC6 --indep-pairwise 1000 5 0.2 --out illumina.15.QC6
 plink --bfile illumina.15.QC6 --extract illumina.15.QC6.prune.in --sex-check --out illumina.15.sex
 grep PROBLEM illumina.15.sex.sexcheck >> illumina.15.sex.probs.txt
 
-#Remove indiivduals with sex errors.
+#Remove individuals with sex errors.
 plink --brfile illumina.15.QC6 --remove illumina.15.sex.probs.txt --make-bed --out illumina.15.QC7
 
 #Check for related individuals.
