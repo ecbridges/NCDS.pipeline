@@ -46,5 +46,5 @@ write.table(infin.1.sd, file = "infin.1.sd.txt", row.names = F, quote = F, sep =
 q()
 
 ##Note upper and lower bound, named x and y respectively here. Remove heterozygosity outliers.
-'awk $5 <= y || $5 >= x' infin.1..prop.het.txt >> infin.1.het.drop.txt
+'awk $5 <= y || $5 >= x' infin.1.prop.het.txt >> infin.1.het.drop.txt
 plink --bfile infin.1.QC3 --remove infin.1.het.drop.txt --make-bed --out infin.1.QC4
