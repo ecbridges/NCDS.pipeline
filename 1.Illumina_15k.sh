@@ -16,7 +16,7 @@ plink --bfile illumina.15 --missing --out illumina.15.calls
 plink --bfile illumina.15 --geno 0.03 --make-bed --out illumina.15.QC1
 
 ##Identify individuals with high proportion of missing data.
-plink --bfile illumia.15.QC1 --missing --out illumina.15.calls.2
+plink --bfile illumina.15.QC1 --missing --out illumina.15.calls.2
 awk '$6 >= 0.02 {print}' illumina.15.calls.2.imiss >> illumina.15.drop.txt
 plink --bfile illumina.15.QC1 --remove illumina.15.drop.txt --make-bed --out illumina.15.QC2
 
@@ -33,12 +33,12 @@ sd<- sd(hetsd[,5])
 hetmean<- mean(hetsd[,5])
 lbound<- hetmean - (sd*3)
 ubound<- hetmean + (sd*3)
-Stat<- c("SD2, "Lower Bound", "Uppder Bound", "Mean")
+Stat<- c("SD", "Lower Bound", "Upper Bound", "Mean")
 Values<- c(sd, lbound, ubound, hetmean)
 illumina.15.sd<- data.frame(Stat, Values)
 write.table(illumina.15.sd, file = "illumina.15.sd.txt", row.names = F, quote = F, sep = "\t")
 q()
 
 ##Note upper and lower bound, named x and y respectively here. Remove heterozygosity outliers.
-'awk $5 <= y || $5 >= x' illumina.15.prop.het.txt >> illumina.15.het.drop.txt
+awk '$5 <= 0.243 || $5 >= 0.275' illumina.15.prop.het.txt >> illumina.15.het.drop.txt
 plink --bfile illumina.15.QC2 --remove illumina.15.het.drop.txt --make-bed --out illumina.15.QC3
