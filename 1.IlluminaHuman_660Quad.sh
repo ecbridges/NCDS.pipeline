@@ -33,12 +33,12 @@ sd<- sd(hetsd[,5])
 hetmean<- mean(hetsd[,5])
 lbound<- hetmean - (sd*3)
 ubound<- hetmean + (sd*3)
-Stat<- c("SD2, "Lower Bound", "Uppder Bound", "Mean")
+Stat<- c("SD", "Lower Bound", "Upper Bound", "Mean")
 Values<- c(sd, lbound, ubound, hetmean)
 quad.sd<- data.frame(Stat, Values)
 write.table(quad.sd, file = "quad.sd.txt", row.names = F, quote = F, sep = "\t")
 q()
 
 ##Note upper and lower bound, named x and y respectively here. Remove heterozygosity outliers.
-'awk $5 <= y || $5 >= x' quad.prop.het.txt >> quad.het.drop.txt
+awk '$5 <= y || $5 >= x' quad.prop.het.txt >> quad.het.drop.txt
 plink --bfile quad.QC2 --remove quad.het.drop.txt --make-bed --out quad.QC3
