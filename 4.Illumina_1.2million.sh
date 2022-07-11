@@ -12,23 +12,8 @@
 #locating the outliers.
 #Follow this procedure to download the 1000 Genomes reference panel: https://meyer-lab-cshl.github.io/plinkQC/articles/Genomes1000.html
 #Follow this procedure to identify ancestry outliers: https://meyer-lab-cshl.github.io/plinkQC/articles/AncestryCheck.html
-#For all NCDS arrays, a theta of 3 was used rather than the default of 1.5, using the code below.
-
-R 
-library(plinkQC) 
-exclude_ancestry.illumina_1.2 <-  evaluate_check_ancestry(indir="", name="",
-                          prefixMergedDataset=,
-                          europeanTh = 3,
-                          refSamplesFile=paste(indir=system.file(package = "plinkQC"), 
-"/extdata/Genomes1000_ID2Pop.txt",
-                                               sep=""),
-                          refColorsFile=paste(indir=system.file(package = "plinkQC"), 
-"/extdata/Genomes1000_PopColors.txt",
-                                              sep=""),
-                          interactive=TRUE)
-
-write.table(file = "illumina.1.2.ancestry.txt", exclude_ancestry.illumina_1.2$fail_ancestry, 
-	    row.names = F, quote = F)
+#For all NCDS arrays, a theta of 3 was used rather than the default of 1.5.
+#Save those for removal as illumina.1.2.ancestry.txt
 
 #Remove ancestry outliers.
 plink --bfile illumina.1.2.QC8 --remove illumina.1.2.ancestry.txt --make-bed --out illumina.1.2.QC9
