@@ -13,7 +13,7 @@ plink --bfile illumina.1.2.QC4 --split-x b37 no-fail --make-bed --out illumina.1
 plink --bfile illumina.1.2.QC5 --set-hh-missing --make-bed --out illumina.1.2.QC6
 
 #Ensure chromosomes are properly coded.
-plink --bfile illumina.1.2.QC6 --merge-x --make-bed --out illumina.1.2.QC7plink --bfile illumina.1.2.QC6 --merge-x --make-bed --out illumina.1.2.QC7
+plink --bfile illumina.1.2.QC6 --merge-x --make-bed --out illumina.1.2.QC7
 
 #Sex check on pruned dataset.
 plink --bfile illumina.1.2.QC7 --indep-pairwise 1000 5 0.2 --out illumina.1.2.QC7
