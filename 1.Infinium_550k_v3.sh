@@ -53,6 +53,6 @@ infin.3.sd<- data.frame(Stat, Values)
 write.table(infin.3.sd, file = "infin.3.sd.txt", row.names = F, quote = F, sep = "\t")
 q()
 
-##Note upper and lower bound, named x and y respectively here. Remove heterozygosity outliers.
+##Remove heterozygosity outliers.
 awk '$5 <= 0.319 || $5 >= 0.333' infin.awk '$5 <= 0.319 || $5 >= 0.333' infin.3.prop.het.txt >> infin.3.het.drop.txt
 plink --bfile infin.3.QC3 --remove infin.3.het.drop.txt --make-bed --out infin.3.QC4

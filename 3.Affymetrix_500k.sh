@@ -7,7 +7,7 @@
 #	Infinium 550k v3 array updated to build GRCh37 (name affy.500.QC5)
 
 #Ensure PAR variants are properly assigned.
-plink --bfile affy.500.QC5 --split-x b37 no-fail --make-bed --out affy.500.QC6
+plink --bfile affy.500.QC4 --split-x b37 no-fail --make-bed --out affy.500.QC5 
 
 #Set remaining .hh instances to missing.
-plink --bfile affy.500.QC6 --set-hh-missing --make-bed --out affy.500.Q7
+plink --bfile affy.500.QC5 --set-hh-missing --make-bed --out affy.500.QC6

@@ -39,6 +39,6 @@ quad.sd<- data.frame(Stat, Values)
 write.table(quad.sd, file = "quad.sd.txt", row.names = F, quote = F, sep = "\t")
 q()
 
-##Note upper and lower bound, named x and y respectively here. Remove heterozygosity outliers.
+##Remove heterozygosity outliers.
 awk '$5 <= 0.317 || $5 >= 0.329' quad.prop.het.txt >> quad.het.drop.txt
 plink --bfile quad.QC2 --remove quad.het.drop.txt --make-bed --out quad.QC3

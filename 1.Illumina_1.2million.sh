@@ -40,6 +40,6 @@ illumina.1.2.sd<- data.frame(Stat, Values)
 write.table(illumina.1.2.sd, file = "illumina.1.2.sd.txt", row.names = F, quote = F, sep = "\t")
 q()
 
-##Note upper and lower bound, named x and y respectively here. Remove heterozygosity outliers.
+#Remove heterozygosity outliers.
 awk '$5 <= 0.288 || $5 >= 0.303' illumina.1.2.prop.het.txt >> illumina.1.2.het.drop.txt
 plink --bfile illumina.1.2.QC2 --remove illumina.1.2.het.drop.txt --make-bed --out illumina.1.2.QC3

@@ -42,6 +42,6 @@ affy.500.sd<- data.frame(Stat, Values)
 write.table(affy.500.sd, file = "affy.500.sd.txt", row.names = F, quote = F, sep = "\t")
 q()
 
-##Note upper and lower bound, named x and y respectively here. Remove heterozygosity outliers.
+##Remove heterozygosity outliers.
 awk '$5 <= 0.286 || $5 >= 0.300' affy.500.prop.het.txt >> affy.500.het.drop.txt
 plink --bfile affy.500.QC2 --remove affy.500.het.drop.txt --make-bed --out affy.500.QC3
