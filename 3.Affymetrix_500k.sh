@@ -10,4 +10,4 @@
 plink --bfile affy.500.QC5 --split-x b37 no-fail --make-bed --out affy.500.QC6
 
 #Set remaining .hh instances to missing.
-plink --bfile affy.500.QC6 --set-hh-missing --make-bed affy.500.QC7
+plink --bfile affy.500.QC6 --set-hh-missing --make-bed --out affy.500.Q7
