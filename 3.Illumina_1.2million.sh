@@ -17,10 +17,7 @@ plink --bfile illumina.1.2.QC6 --merge-x --make-bed --out illumina.1.2.QC7
 
 #Sex check on pruned dataset.
 plink --bfile illumina.1.2.QC7 --indep-pairwise 1000 5 0.2 --out illumina.1.2.QC7
-plink --bfile illumina.1.2.QC7 --extract illumina.1.2.QC7plink --bfile illumina.1.2.QC7 --indep-pairwise 1000 5 0.2 --out illumina.1.2.QC7
 plink --bfile illumina.1.2.QC7 --extract illumina.1.2.QC7.prune.in --check-sex --out illumina.1.2.sex
-grep PROBLEM illumina.1.2.sex.sexcheck >> illumina.1.2.sex.probs.txt
-.prune.in --check-sex --out illumina.1.2.sex
 grep PROBLEM illumina.1.2.sex.sexcheck >> illumina.1.2.sex.probs.txt
 
 #Remove individuals with sex errors.

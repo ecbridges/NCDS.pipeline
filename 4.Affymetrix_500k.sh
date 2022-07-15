@@ -13,8 +13,7 @@ plink --bfile affy.500.QC6 --indep-pairwise 1000 5 0.2 --out affy.500.QC6
 plink --bfile affy.500.QC6 --extract affy.500.QC6.prune.in --make-bed --pca header tabs --out affy.500.QC6.pca
 
 #Genetate allele frequencies from clean file.
-plink --bfile affy.500.QC6 --freq --out afplink --bfile affy.500.QC6 --freq --out affy.500
-fy.500
+plink --bfile affy.500.QC6 --freq --out affy.500
 
 #Now check data using Will Rayner's checking script. Script and associated files are available here: 
 #	https://www.well.ox.ac.uk/~wrayner/tools/

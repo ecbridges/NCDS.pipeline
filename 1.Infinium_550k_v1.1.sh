@@ -19,9 +19,6 @@ plink --bfile infin.1 --geno 0.03 --make-bed --out infin.1.QC1
 plink --bfile infin.1.QC1 --hardy --out infin.1
 awk '$3 == "UNAFF" && $9 < 0.000001' infin.1.hwe | wc -l
 plink --bfile infin.1.QC1 --hwe 0.000001 --make-bed --out infin.1.QC2
-plink --bfile infin.1.QC2 --missing --out infin.1.calls.2
-awk '$6 >= 0.02 {print}' infin.1.calls.2.imiss >> infin.1.drop.txt
-plink --bfile infin.1.QC2 --remove infin.1.drop.txt --make-bed --out infin.1.QC3
 
 ##Identify individuals with high proportion of missing data.
 plink --bfile infin.1.QC2 --missing --out infin.1.calls.2
