@@ -27,10 +27,6 @@ for CHR in {1..22};
 do
 plink --bfile affy.500.QC6-updated-chr${CHR} --recode vcf --out affy.500.updated.chr${CHR}
 bcftools sort affy.500.updated.chr${CHR}.vcf -O z -o affy.500.chr${for CHR in {1..22};
-do
-plink --bfile affy.500.QC6-updated-chr${CHR} --recode vcf --out affy.500.updated.chr${CHR}
-bcftools sort affy.500.updated.chr${CHR}.vcf -O z -o affy.500.chr${CHR}.vcf.gz
-doneCHR}.vcf.gz
 done
 
 #OPTIONAL: check VCF files are valid using this script https://github.com/zhanxw/checkVCF

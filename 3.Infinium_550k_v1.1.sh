@@ -1,6 +1,5 @@
-plink --bfile infin.1.QC5 --split-x b37 no-fail --make-bed --out infin.1.QC6
-plink --bfile infin.1.QC6 --set-hh-missing --make-bed infin.1.QC7#This is step 3 for the preparation of the Infinium 550k v1.1  array. This section will clean up
-#the updated dataset by addressing any sex errors, related individuals and heterozygrous haploid
+#This is step 3 for the preparation of the Infinium 550k v1.1  array. This section will clean up
+#the updated dataset by addressing any sex errors and heterozygrous haploid
 #loci.
 
 #Requirements

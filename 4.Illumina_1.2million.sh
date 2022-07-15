@@ -1,8 +1,4 @@
-plink --bfile illumina.1.2.QC8 --remove illumina.1.2.ancestry.txt --make-bed --out illumina.1.2.QC9
-plink --bfile illumina.1.2.QC9 --indep-pairwise 1000 5 0.2 --out illumina.1.2.QC9
-plink --bfile illumina.1.2.QC9 --extract illumina.1.2.QC9.prune.in --make-bed --pca header tabs --out illumina.1.2.pca
-plink --bfile illumina.1.2.QC9 --freq --out illumina.1.2
-ex#Step 4 to prepare the Illumina 1.2 million array for imputation. This section requires several external script - read below for requirements.
+#Step 4 to prepare the Illumina 1.2 million array for imputation. This section requires several external script - read below for requirements.
 
 #Requirements
 #	Plink 1.90b4
