@@ -1,7 +1,3 @@
-plink --bfile infin.3 --geno 0.03 --make-bed --out infin.3.QC1
-plink --bfile infin.3.QC1 --hardy --out infin.3
-awk '$3 == "UNAFF" && $9 < 0.000001' infin.3.hwe | wc -l
-plink --bfile infin.3.QC1 --hwe 0.000001 --make-bed --out infin.3.QC2
 ##This file includes the first steps for conducting the quality control pipeline to upload the Infinium 550k v3 array from the
 ##NCDS to the Michigan Imputation Server.
 
