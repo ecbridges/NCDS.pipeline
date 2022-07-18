@@ -1,6 +1,3 @@
-plink --bfile affy.500.QC1 --hardy --out affy.500
-awk '$3 == "UNAFF" && $9 < 0.000001' affy.500.hwe | wc -l
-plink --bfile affy.500.QC1 --hwe 0.000001 --make-bed --out affy.500.QC2
 ##This file includes the first steps for conducting the quality control pipeline to upload the Affymetrix 500k array from the
 ##NCDS to the Michigan Imputation Server.
 
