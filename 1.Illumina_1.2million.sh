@@ -1,4 +1,3 @@
-plink --bfile illumia.1.2.QC1 --missing --out illumina.1.2.calls.2
 ##This file includes the first steps for conducting the quality control pipeline to upload the Illumina 1.2 million array from the
 ##NCDS to the Michigan Imputation Server.
 
