@@ -1,0 +1,227 @@
+library(foreign)
+waves.0.1.2.3<- read.spss("waves1-3.sav", to.data.frame = T)
+wave.4<- read.spss("wave4.sav", to.data.frame = T)
+wave.5<- read.spss("wave5.sav", to.data.frame = T)
+#Merge into one dataset.
+waves.0.to.4<- merge(waves.0.1.2.3, wave.4, by = "ncdsid", all.x = T)
+names(waves.0.to.4)
+all.waves<- merge(waves.0.to.4, wave.5, by = "ncdsid", all.x = T)
+
+#Create dataframe with reading measures for paper.
+names(all.waves)
+imputation.paper<- data.frame(all.waves$ncdsid, all.waves$n622, all.waves$n92, all.waves$n68, all.waves$n81, all.waves$n923, all.waves$n878, all.waves$n935,
+                              all.waves$n936, all.waves$n2928, all.waves$n2864, all.waves$n2199, all.waves$n2245, all.waves$n2749, all.waves$n4659, all.waves$n501550)
+colnames(imputation.paper)<- c("id", "sex", "southg", "teachrate", "teachlevel", "compre11", "bookuse", "readsoft", "readsnon.books", "compre16", "reads16", "cope", "teacheng", "stueng",
+                               "probs23", "probs33")
+
+
+####Tidy up variables####
+
+#id
+imputation.paper$id <- gsub(" ", "", imputation.paper$id)
+
+#sex
+summary(imputation.paper$sex)
+class(imputation.paper$sex)
+levels(imputation.paper$sex)
+imputation.paper$sex<- as.numeric(imputation.paper$sex)
+#1 = Male, 2 = Female
+summary(imputation.paper$sex)
+
+#southg
+summary(imputation.paper$southg)
+class(imputation.paper$southg)
+imputation.paper$southg<- as.character(imputation.paper$southg)
+imputation.paper$southg<- as.numeric(imputation.paper$southg)
+summary(imputation.paper$southg)
+
+#teachrate
+summary(imputation.paper$teachrate)
+class(imputation.paper$teachrate)
+library(forcats)
+imputation.paper$teachrate<- fct_rev(imputation.paper$teachrate)
+levels(imputation.paper$teachrate)
+
+#teachlevel
+summary(imputation.paper$teachlevel)
+levels(imputation.paper$teachlevel)
+levels(imputation.paper$teachlevel)[levels(imputation.paper$teachlevel)=='Do not know'] <- NA
+levels(imputation.paper$teachlevel)
+imputation.paper$teachlevel<- fct_rev(imputation.paper$teachlevel)
+
+names(imputation.paper)
+
+#compre11
+summary(imputation.paper$compre11)
+class(imputation.paper$compre11)
+imputation.paper$compre11<- as.character(imputation.paper$compre11)
+imputation.paper$compre11<- as.numeric(imputation.paper$compre11)
+summary(imputation.paper$compre11)
+
+#bookuse
+summary(imputation.paper$bookuse)
+class(imputation.paper$bookuse)
+imputation.paper$bookuse<- fct_rev(imputation.paper$bookuse)
+names(imputation.paper)
+
+#readsoft
+summary(imputation.paper$readsoft)
+class(imputation.paper$readsoft)
+imputation.paper$readsoft<- fct_rev(imputation.paper$readsoft)
+levels(imputation.paper$readsoft)
+
+#readsnon.books
+summary(imputation.paper$readsnon.books)
+imputation.paper$readsnon.books<- fct_rev(imputation.paper$readsnon.books)
+
+#compre16
+summary(imputation.paper$compre16)
+class(imputation.paper$compre16)
+imputation.paper$compre16<- as.character(imputation.paper$compre16)
+imputation.paper$compre16<- as.numeric(imputation.paper$compre16)
+summary(imputation.paper$compre16)
+
+#reads16
+summary(imputation.paper$reads16)
+class(imputation.paper$reads16)
+levels(imputation.paper$reads16)
+frequency(imputation.paper$reads16)
+levels(imputation.paper$reads16)[levels(imputation.paper$reads16)=='No chance'] <- NA
+imputation.paper$reads16<- fct_rev(imputation.paper$reads16)
+
+#cope
+summary(imputation.paper$cope)
+class(imputation.paper$cope)
+levels(imputation.paper$cope)[levels(imputation.paper$cope)=='Uncertain'] <- NA
+levels(imputation.paper$cope)
+imputation.paper$cope<- fct_rev(imputation.paper$cope)
+
+#teacheng
+summary(imputation.paper$teacheng)
+levels(imputation.paper$teacheng)
+levels(imputation.paper$teacheng)[levels(imputation.paper$teacheng)=='Dont know'] <- NA
+imputation.paper$teacheng<- fct_rev(imputation.paper$teacheng)
+
+#stueng
+summary(imputation.paper$stueng)
+levels(imputation.paper$stueng)
+levels(imputation.paper$stueng)[levels(imputation.paper$stueng)=='Never studied'] <- NA
+
+#probs23
+summary(imputation.paper$probs23)
+class(imputation.paper$probs23)
+levels(imputation.paper$probs23)[levels(imputation.paper$probs23)=='REFUSED'] <- NA
+levels(imputation.paper$probs23)[levels(imputation.paper$probs23)=='DONT KNOW'] <- NA
+levels(imputation.paper$probs23)
+
+#probs33
+summary(imputation.paper$probs33)
+levels(imputation.paper$probs33)
+
+#All variables cleaned. Now time to combine them into a clean dataset for analysis. 
+imputation.clean<- data.frame(imputation.paper$id, imputation.paper$sex, imputation.paper$southg, imputation.paper$teachrate, imputation.paper$teachlevel,
+                              imputation.paper$compre11, imputation.paper$bookuse, imputation.paper$readsoft, imputation.paper$readsnon.books, imputation.paper$compre16, imputation.paper$reads16,
+                              imputation.paper$cope, imputation.paper$teacheng, imputation.paper$stueng, imputation.paper$probs23, imputation.paper$probs33)
+
+colnames(full.var)<- c("Southgate (7)", "Teacher Rating (7)", "Reading Level (7)", "Comprehension (11)", "Book Use (11)", 
+                       "Reads Books (11)", "Reads Other (11)", "Comprehension (16)", "Reads Books (16)", "Can Cope (16)",
+                       "English Ability (16)", "English Rating (16)", "Reading Problems (23)", "Reading Problems (33)")
+
+
+##Generate correlation matrix for full sample##
+library(polycor)
+
+str(full.var)
+
+full.cor <- hetcor(full.var, ML = TRUE, std.err = F,
+                         use=c("pairwise.complete.obs"), bins=5, pd=T)
+full.result<- full.cor$correlations
+class(full.result)
+head(full.result)
+
+###PCA ANALYSIS FOR FULL SAMPLE###
+library(psych)
+install.packages("GPArotation")
+library(GPArotation)
+
+full.pca1 <- principal(full.result, nfactors = 1, n.obs= 18558, residuals = FALSE, rotate= "oblimin", covar=T,
+                       scores=T, missing=FALSE, oblique.scores=T, method = "regression",
+                       use ="pairwise", cor = "mixed", correct=0.5,weight=NULL)
+
+full.pca1$values
+##Suggests 3 PC.
+
+full.pca2 <- principal(full.result, nfactors = 2, n.obs= 18558, residuals = FALSE, rotate= "oblimin", covar=T,
+                       scores=T, missing=FALSE, oblique.scores=T, method = "regression",
+                       use ="pairwise", cor = "mixed", correct=0.5,weight=NULL)
+
+full.pca2
+
+
+full.pca3 <- principal(full.result, nfactors = 3, n.obs= 18558, residuals = FALSE, rotate= "oblimin", covar=T,
+                       scores=T, missing=FALSE, oblique.scores=T, method = "regression",
+                       use ="pairwise", cor = "mixed", correct=0.5,weight=NULL)
+full.pca3
+
+#Confirms 3 PC as good fit.
+
+cont.full<- data.frame(full.var$`Southgate (7)`, as.numeric(full.var$`Teacher Rating (7)`), 
+                       as.numeric(full.var$`Reading Level (7)`), full.var$`Comprehension (11)`,
+                       as.numeric(full.var$`Book Use (11)`), full.var$`Comprehension (16)`,
+                       as.numeric(full.var$`Can Cope (16)`), as.numeric(full.var$`English Ability (16)`),
+                       as.numeric(full.var$`Reading Problems (23)`), as.numeric(full.var$`Reading Problems (33)`))
+##Standardize##
+full.z<- as.data.frame(scale(cont.full, center = T, scale = T))
+colnames(full.z)<- c("Southgate", "teachrate", "booklevel", "comp11", "bookuse", "comp16", "cope", "ability16", "probs23", "probs33")
+
+head(full.z)
+
+##Alpha##
+install.packages("ltm")
+library(ltm)
+full.alpha<- cronbach.alpha(full.z, na.rm = T)
+
+##Scores total##
+full.comp <- data.frame(full.z$Southgate*0.91, full.z$teachrate*0.89, full.z$booklevel*0.9,
+                        full.z$comp11*0.76, full.z$bookuse*0.77, full.z$comp16*0.76, full.z$cope*0.8,
+                        full.z$ability16*0.76, full.z$probs23*0.64, full.z$probs33*0.58)
+colnames(full.comp)<- c("Southgate", "teachrate", "booklevel", "comp11", "bookuse", "comp16", "cope", "ability16", "probs23", "probs33")
+
+full.comp$composite<- rowSums(full.comp, na.rm = T)
+
+##Scores age 7##
+
+full.z.7<- data.frame(full.z$Southgate, full.z$teachrate, full.z$booklevel)
+colnames(full.z.7)<- c("southg", "teachrate", "booklevel")
+full.alpha.7<- cronbach.alpha(full.z.7, na.rm = T)
+full.alpha.7
+full.comp.7<- data.frame(full.z$Southgate*0.91, full.z$teachrate*0.89, full.z$booklevel*0.9)
+colnames(full.comp.7)<- c("southg", "teachrate", "booklevel")
+full.comp.7$comp.7<- rowSums(full.comp.7, na.rm = T)
+dist(full.comp.7$comp.7)
+
+
+##Scores age 11###
+
+full.z.11<- data.frame(full.z$comp11, full.z$bookuse)
+colnames(full.z.11)<- c("comp11", "bookuse")
+full.alpha.11<- cronbach.alpha(full.z.11, na.rm = T)
+full.alpha.11
+full.comp.11<- data.frame(full.z$comp11*0.76, full.z$bookuse*0.77)
+colnames(full.comp.11)<- c("comp11", "bookuse")
+full.comp.11$comp.11<- rowSums(full.comp.11, na.rm = T)
+
+##Scores age 16##
+full.z.16<- data.frame(full.z$comp16, full.z$cope, full.z$ability16)
+colnames(full.z.16)<- c("comp16", "cope", "ability16")
+full.alpha.16<- cronbach.alpha(full.z.16, na.rm = T)
+full.alpha.16
+
+
+##Scores age 16 - without cope##
+full.z.16.3<- data.frame(full.z$comp16, full.z$cope)
+colnames(full.z.16.3)<- c("comp16", "cope")
+full.alpha.16.3<- cronbach.alpha(full.z.16.3, na.rm = T)
+full.alpha.16.3
+
+
