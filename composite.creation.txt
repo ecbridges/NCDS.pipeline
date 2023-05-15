@@ -119,7 +119,7 @@ summary(imputation.paper$probs33)
 levels(imputation.paper$probs33)
 
 #All variables cleaned. Now time to combine them into a clean dataset for analysis. 
-imputation.clean<- data.frame(imputation.paper$id, imputation.paper$sex, imputation.paper$southg, imputation.paper$teachrate, imputation.paper$teachlevel,
+imputation.clean<- data.frame( imputation.paper$southg, as.numeric(imputation.paper$teachrate), as.numeric(imputation.paper$teachlevel),
                               imputation.paper$compre11, imputation.paper$bookuse, imputation.paper$readsoft, imputation.paper$readsnon.books, imputation.paper$compre16, imputation.paper$reads16,
                               imputation.paper$cope, imputation.paper$teacheng, imputation.paper$stueng, imputation.paper$probs23, imputation.paper$probs33)
 
@@ -187,7 +187,7 @@ full.comp <- data.frame(full.z$Southgate*0.91, full.z$teachrate*0.89, full.z$boo
                         full.z$ability16*0.76, full.z$probs23*0.64, full.z$probs33*0.58)
 colnames(full.comp)<- c("Southgate", "teachrate", "booklevel", "comp11", "bookuse", "comp16", "cope", "ability16", "probs23", "probs33")
 
-full.comp$composite<- rowSums(full.comp, na.rm = F)
+full.comp$composite<- rowSums(full.comp, na.rm = T)
 
 ##Scores age 7##
 
@@ -197,7 +197,7 @@ full.alpha.7<- cronbach.alpha(full.z.7, na.rm = F)
 full.alpha.7
 full.comp.7<- data.frame(full.z$Southgate*0.91, full.z$teachrate*0.89, full.z$booklevel*0.9)
 colnames(full.comp.7)<- c("southg", "teachrate", "booklevel")
-full.comp.7$comp.7<- rowSums(full.comp.7, na.rm = F))
+full.comp.7$comp.7<- rowSums(full.comp.7, na.rm = T))
 dist(full.comp.7$comp.7)
 
 
@@ -209,7 +209,7 @@ full.alpha.11<- cronbach.alpha(full.z.11, na.rm = F)
 full.alpha.11
 full.comp.11<- data.frame(full.z$comp11*0.76, full.z$bookuse*0.77)
 colnames(full.comp.11)<- c("comp11", "bookuse")
-full.comp.11$comp.11<- rowSums(full.comp.11, na.rm = F)
+full.comp.11$comp.11<- rowSums(full.comp.11, na.rm = T)
 
 ##Scores age 16##
 full.z.16<- data.frame(full.z$comp16, full.z$cope, full.z$ability16)
@@ -221,7 +221,7 @@ full.alpha.16
 ##Scores age 16 - without cope##
 full.z.16.3<- data.frame(full.z$comp16, full.z$cope)
 colnames(full.z.16.3)<- c("comp16", "cope")
-full.alpha.16.3<- cronbach.alpha(full.z.16.3, na.rm = F)
+full.alpha.16.3<- cronbach.alpha(full.z.16.3, na.rm = T)
 full.alpha.16.3
 
 
